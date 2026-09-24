@@ -1,0 +1,54 @@
+{
+	"name": "n8n-nodes-solaria",
+	"version": "0.1.0",
+	"description": "n8n nodes for SOLAR.IA: contacts, WhatsApp messages, conversations, tags, sequences, chatbots and an event trigger.",
+	"license": "MIT",
+	"homepage": "https://github.com/Dejota-04/n8n-nodes-solaria#readme",
+	"keywords": [
+		"n8n-community-node-package",
+		"solaria",
+		"whatsapp",
+		"crm"
+	],
+	"author": {
+		"name": "SOLAR.IA",
+		"email": "dssantana04@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Dejota-04/n8n-nodes-solaria.git"
+	},
+	"scripts": {
+		"build": "n8n-node build",
+		"build:watch": "tsc --watch",
+		"dev": "n8n-node dev",
+		"lint": "n8n-node lint",
+		"lint:fix": "n8n-node lint --fix",
+		"release": "n8n-node release",
+		"prepublishOnly": "n8n-node prerelease"
+	},
+	"files": [
+		"dist"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"strict": true,
+		"credentials": [
+			"dist/credentials/SolariaApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/Solaria/Solaria.node.js",
+			"dist/nodes/SolariaTrigger/SolariaTrigger.node.js"
+		]
+	},
+	"devDependencies": {
+		"@n8n/node-cli": "^0.49.1",
+		"eslint": "9.32.0",
+		"prettier": "3.6.2",
+		"release-it": "^19.0.4",
+		"typescript": "5.9.2"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	}
+}
