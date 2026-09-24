@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-solaria",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "n8n nodes for SOLAR.IA: contacts, WhatsApp messages, conversations, tags, sequences, chatbots and an event trigger.",
 	"license": "MIT",
 	"homepage": "https://github.com/Dejota-04/n8n-nodes-solaria#readme",

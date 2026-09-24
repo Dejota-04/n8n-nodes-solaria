@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- First release published from GitHub Actions with npm provenance.
+
 ## 0.1.0
 
 - SOLAR.IA node: contacts (create, get, get many, update, add/remove tag), messages (text or template to a
