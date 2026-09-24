@@ -92,12 +92,12 @@ npm run build
 
 ### Release
 
-Publishing runs on GitHub Actions with npm provenance (required by n8n for verified nodes):
+Publishing runs on GitHub Actions (`.github/workflows/publish.yml`) with npm provenance, which n8n requires
+for verified nodes. The package is trusted on npm for this repository's `publish.yml` (no token needed).
 
-1. On npmjs.com, add this repository as a **Trusted Publisher** for the package (workflow `publish.yml`),
-   or set an `NPM_TOKEN` secret.
-2. Run `npm run release`: it lints, builds, bumps the version, updates the changelog, tags and pushes.
-   The tag triggers `.github/workflows/publish.yml`, which publishes to npm.
+1. Bump `version` in `package.json` and add the entry to `CHANGELOG.md`.
+2. Push to `main` and create a tag with the same version: `git tag 0.2.0 && git push origin 0.2.0`
+   (or `gh release create 0.2.0`). The tag triggers the workflow, which lints, builds and publishes.
 
 ## License
 
