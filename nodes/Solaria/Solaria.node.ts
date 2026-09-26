@@ -268,9 +268,16 @@ async function run(
 			});
 		case 'conversation.updateStatus': {
 			const id = toId.call(this, this.getNodeParameter('conversationId', i), 'Conversation ID', i);
-			return await solariaApiRequest.call(this, 'PATCH', `/conversations/${id}`, {
-				status: this.getNodeParameter('newStatus', i) as string,
-			});
+			const status = this.getNodeParameter('newStatus', i) as string;
+			const body: IDataObject = { status };
+			if (status === 'resolved') {
+				const opts = this.getNodeParameter('resolveOptions', i, {}) as IDataObject;
+				if (opts.closeMode) body.close_mode = opts.closeMode;
+				if (opts.outcome) {
+					body.classification = { outcome: opts.outcome, ...(opts.note ? { note: opts.note } : {}) };
+				}
+			}
+			return await solariaApiRequest.call(this, 'PATCH', `/conversations/${id}`, body);
 		}
 
 		case 'sequence.enroll': {

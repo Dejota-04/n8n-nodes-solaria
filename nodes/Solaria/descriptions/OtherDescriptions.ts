@@ -144,6 +144,61 @@ export const conversationFields: INodeProperties[] = [
 			{ name: 'Resolved', value: 'resolved' },
 		],
 		default: 'resolved',
+		description:
+			'Resolving works like the Conclude button in the app: the chatbot and the AI agent leave the conversation, the satisfaction survey is sent and the assignee\'s close preference applies',
+	},
+	{
+		displayName: 'Resolve Options',
+		name: 'resolveOptions',
+		type: 'collection',
+		placeholder: 'Add Option',
+		default: {},
+		displayOptions: {
+			show: { resource: ['conversation'], operation: ['updateStatus'], newStatus: ['resolved'] },
+		},
+		options: [
+			{
+				displayName: 'After Resolving',
+				name: 'closeMode',
+				type: 'options',
+				options: [
+					{
+						name: 'Archive Now',
+						value: 'archive_now',
+						description: 'Leaves the list; if the customer writes back, it is a new attendance',
+					},
+					{
+						name: 'Keep for 12h',
+						value: 'archive_12h',
+						description:
+							'Stays 12 hours in the assignee\'s list; if the customer writes back in that time, it stays with them',
+					},
+				],
+				default: 'archive_12h',
+				description: "Overrides the assignee's close preference",
+			},
+			{
+				displayName: 'Classification',
+				name: 'outcome',
+				type: 'options',
+				options: [
+					{ name: 'Goal Achieved', value: 'achieved' },
+					{ name: 'Lost', value: 'lost' },
+					{ name: 'Question', value: 'question' },
+				],
+				default: 'achieved',
+				description:
+					'Result of the attendance (needs the Attendance Classification app). Optional through the API even when the app requires it.',
+			},
+			{
+				displayName: 'Classification Note',
+				name: 'note',
+				type: 'string',
+				typeOptions: { rows: 2 },
+				default: '',
+				description: 'Up to 1000 characters. Only saved together with a classification.',
+			},
+		],
 	},
 ];
 
