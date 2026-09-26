@@ -5,6 +5,12 @@
 - Contact: **Opt Out** and **Opt In** operations (by contact ID or phone number) and the **Opted Out Only**
   filter on Get Many. Contacts now include `opted_out`.
 - Trigger: **Contact Opted Out** and **Contact Opted In** events.
+- Contact: opting in again resumes the sequences the opt-out interrupted, from the step where they stopped
+  (`resumed_sequences` in the response). Listed contacts that opted out include `opted_out_at` and
+  `opted_out_source`.
+- Conversation: **Update Status** to Resolved now works like the Conclude button in the app (chatbot and AI
+  agent stop, satisfaction survey, the assignee's close preference) and takes **Resolve Options**: After
+  Resolving (keep for 12h / archive now) and Classification with an optional note.
 
 ## 0.1.1
 
