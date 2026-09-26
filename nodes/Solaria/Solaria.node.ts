@@ -210,6 +210,7 @@ async function run(
 		case 'contact.getAll':
 			return await listing.call(this, i, '/contacts', 'contacts', {
 				q: this.getNodeParameter('query', i, '') as string,
+				...(this.getNodeParameter('optedOutOnly', i, false) ? { opted_out: 'true' } : {}),
 			});
 		case 'contact.update': {
 			const fields = this.getNodeParameter('updateFields', i, {}) as IDataObject;
@@ -223,6 +224,24 @@ async function run(
 				});
 			}
 			return await solariaApiRequest.call(this, 'PATCH', `/contacts/${contactId()}`, body);
+		}
+		case 'contact.optOut':
+		case 'contact.optIn': {
+			const method = operation === 'optOut' ? 'POST' : 'DELETE';
+			if (this.getNodeParameter('findBy', i, 'id') === 'phone') {
+				const phone = String(this.getNodeParameter('phoneNumber', i, '')).trim();
+				if (!phone) {
+					throw new NodeOperationError(this.getNode(), 'Provide a phone number', { itemIndex: i });
+				}
+				return await solariaApiRequest.call(
+					this,
+					method,
+					'/contacts/opt-out',
+					method === 'POST' ? { phone_number: phone } : undefined,
+					method === 'DELETE' ? { phone_number: phone } : undefined,
+				);
+			}
+			return await solariaApiRequest.call(this, method, `/contacts/${contactId()}/opt-out`);
 		}
 		case 'contact.addTag':
 			return await solariaApiRequest.call(this, 'POST', `/contacts/${contactId()}/tags`, {

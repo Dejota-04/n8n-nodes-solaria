@@ -66,6 +66,17 @@ export class SolariaTrigger implements INodeType {
 						value: 'contact.created',
 					},
 					{
+						name: 'Contact Opted In',
+						value: 'contact.opted_in',
+						description: 'An opt-out was undone: the contact receives automated messages again',
+					},
+					{
+						name: 'Contact Opted Out',
+						value: 'contact.opted_out',
+						description:
+							'The contact asked (or was set by the team or the API) not to receive automated messages',
+					},
+					{
 						name: 'Contact Updated',
 						value: 'contact.updated',
 					},

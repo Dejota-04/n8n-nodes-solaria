@@ -36,6 +36,20 @@ export const contactOperations: INodeProperties[] = [
 				action: 'Get many contacts',
 			},
 			{
+				name: 'Opt In',
+				value: 'optIn',
+				description:
+					'Undo an opt-out: the contact receives campaigns and sequences again. Only when the contact asked for it.',
+				action: 'Opt in a contact',
+			},
+			{
+				name: 'Opt Out',
+				value: 'optOut',
+				description:
+					'Stop automated messages to the contact (campaigns, sequences and automated chatbots). Conversations with the team are not affected.',
+				action: 'Opt out a contact',
+			},
+			{
 				name: 'Remove Tag',
 				value: 'removeTag',
 				description: 'Remove a tag from a contact',
@@ -77,6 +91,37 @@ export const contactFields: INodeProperties[] = [
 		placeholder: 'name@email.com',
 		default: '',
 		displayOptions: show(['create']),
+	},
+
+	// ─── opt out / opt in ───
+	{
+		displayName: 'Find Contact By',
+		name: 'findBy',
+		type: 'options',
+		options: [
+			{ name: 'Contact ID', value: 'id' },
+			{ name: 'Phone Number', value: 'phone' },
+		],
+		default: 'id',
+		displayOptions: show(['optOut', 'optIn']),
+	},
+	{
+		displayName: 'Contact ID',
+		name: 'contactId',
+		type: 'string',
+		required: true,
+		default: '',
+		displayOptions: { show: { resource: ['contact'], operation: ['optOut', 'optIn'], findBy: ['id'] } },
+	},
+	{
+		displayName: 'Phone Number',
+		name: 'phoneNumber',
+		type: 'string',
+		required: true,
+		default: '',
+		placeholder: '5511999998888',
+		displayOptions: { show: { resource: ['contact'], operation: ['optOut', 'optIn'], findBy: ['phone'] } },
+		description: 'Any format. No contact is created when the number is not found.',
 	},
 
 	// ─── get / update / tags ───
@@ -127,6 +172,15 @@ export const contactFields: INodeProperties[] = [
 		default: '',
 		displayOptions: show(['getAll']),
 		description: 'Name, phone number or email. Leave empty to list all contacts.',
+	},
+	{
+		displayName: 'Opted Out Only',
+		name: 'optedOutOnly',
+		type: 'boolean',
+		default: false,
+		displayOptions: show(['getAll']),
+		description:
+			'Whether to list only contacts that opted out of automated messages (most recent first; the search then matches the name only)',
 	},
 	...paginationFields('contact', 'getAll'),
 ];

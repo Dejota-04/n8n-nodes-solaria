@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0
+
+- Contact: **Opt Out** and **Opt In** operations (by contact ID or phone number) and the **Opted Out Only**
+  filter on Get Many. Contacts now include `opted_out`.
+- Trigger: **Contact Opted Out** and **Contact Opted In** events.
+
 ## 0.1.1
 
 - First release published from GitHub Actions with npm provenance.

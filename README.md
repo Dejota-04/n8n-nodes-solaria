@@ -30,7 +30,7 @@ n8n tests the credential against `GET /integrations/v1/me`.
 
 | Resource | Operations |
 |---|---|
-| Contact | Create (returns the existing contact when the phone number is already registered), Get, Get Many (search by name, phone or email), Update, Add Tag, Remove Tag |
+| Contact | Create (returns the existing contact when the phone number is already registered), Get, Get Many (search by name, phone or email; optionally only opted-out contacts), Update, Add Tag, Remove Tag, Opt Out, Opt In (by contact ID or phone number) |
 | Message | Send a text or a message template to a phone number, a contact or a conversation |
 | Conversation | Get Many (by status), Update Status (open, pending, resolved) |
 | Sequence | Add Contact |
@@ -46,6 +46,10 @@ Notes:
   `{{telefone}}` in the template are filled with the contact data.
 - Errors carry the reason returned by SOLAR.IA (e.g. no connected channel, contact not found). Enable
   **Settings › On Error › Continue** on the node to handle them in the workflow.
+- **Opt Out** stops automated messages to the contact (campaigns, sequences and automated chatbots) and removes
+  it from running sequences; conversations with the team are not affected. **Opt In** undoes it — only use it
+  when the contact asked. Both are idempotent (`changed: false` when nothing changed). Contacts carry
+  `opted_out` (plus `opted_out_at` and `opted_out_source` when set).
 - The API allows 120 requests per minute per IP.
 
 ## Trigger
@@ -58,6 +62,7 @@ the workflow is deactivated (it shows up under **Ajustes › Integrações › W
 | Message Created | A message is received from a customer or sent by the team (internal notes are never sent) |
 | Conversation Created / Updated / Resolved | A conversation is opened, changes (status, assignee) or is resolved |
 | Contact Created / Updated | A contact is created or changed |
+| Contact Opted Out / Opted In | A contact opted out of automated messages (by replying "SAIR", by the team or by the API), or the opt-out was undone |
 
 - **Only Customer Messages** (on by default) ignores messages sent by the team, bots or the workflow itself,
   so a workflow that replies does not trigger itself.
